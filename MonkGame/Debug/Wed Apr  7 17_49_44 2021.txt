@@ -1,0 +1,4 @@
+Started log at Wed Apr  7 17:49:44 2021
+
+Wed Apr  7 17:49:44 2021
+ Generated UI for the scene: MonkTitleScreen.txt
