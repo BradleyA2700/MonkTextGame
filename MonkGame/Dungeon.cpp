@@ -45,6 +45,9 @@ void Dungeon::StartDungeon(std::string playerName, std::string playerDecription)
 			MainMenu::GenerateUI(currentRoom.GetRoomName() + ".txt", noDoor, invalidInput);//Set up UI
 			roomCons[playerPosX][playerPosY] = currentRoom.GetRoomName()[0];//Saves room type for the map
 			std::cout << ExplorationUIGen() << std::endl;//Prints the map for the player to see
+			if (currentRoom.GetRoomName() != "Monster Room") {
+				std::cout << player.getName() << "'s current Health: " << player.getCurrentHealth() << std::endl;//Writes hp values
+			}
 			invalidInput = false;
 
 			if (currentRoom.GetRoomName() == "Treasure Room" || currentRoom.GetRoomName() == "Player Dead")//Checks for game end
@@ -67,8 +70,9 @@ void Dungeon::StartDungeon(std::string playerName, std::string playerDecription)
 				std::cout << currentMonster.getName() << "'s current Health: " << currentMonster.getCurrentHealth() << std::endl;//Writes hp values
 				input = MonsterRoomManager(currentRoom);//Runs the combat turn setion
 				//Generation of HP log to add to combat UI
-				std::string tempText = "Turn end Player health is " + player.getCurrentHealth();
-				tempText.append(" and the monsters health is " + currentMonster.getCurrentHealth());
+				std::string tempText = "Turn end Player health is " + std::to_string(player.getCurrentHealth());
+				tempText.append(" and the monsters health is " + std::to_string(currentMonster.getCurrentHealth()));
+				tempText.append("\n");
 				CombatUIGen(tempText);
 				if (player.getCurrentHealth() <= 0) //Checks for dead
 				{
@@ -171,7 +175,10 @@ int Dungeon::EmptyRoomManager(Room currentRoom)
 		break;
 	default:// Extra input and error collection
 		if (input == 5 && currentRoom.GetRoomName() == "Empty Room")// Prayer manager
-		{ player.setCurrentHealth(player.getMaxHealth()); MainMenu::EnterLog("Player Prayed"); }
+		{ 
+			player.setCurrentHealth(player.getMaxHealth());
+			std::cout << "Player Prayed" << std::endl;
+		}
 		else//error output 
 		{
 			invalidInput = true;
